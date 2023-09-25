@@ -1,6 +1,6 @@
 // team2 contract source
-var PLAYER_REGISTRY_CONTRACT_ID = "hylPDerChUZCeobjc6zV3CxGOdeei_Z0_67fherDdsw";
-var GAME_CURRENCY_CONTRACT_ID = "cqYFMlPU8HLuyb-SJK20s4yM6OiX74ymhb8Zt1yq8us";
+var PLAYER_REGISTRY_CONTRACT_ID = "rkdeLVggv4aK39Ee0mOzGm3V0wvMP6nA_zSEV_MLPD8";
+var GAME_CURRENCY_CONTRACT_ID = "HNgIQyOHzvEzyNWTrQ6OHdYa4CBPCV4mPsEC3eNocrk";
 var PLATFORM_WALLET = "bAJYgxGXt9KE4g8H7l7u80iFaBIgzpUQNUgycJby0lU";
 var multiLimit = 10;
 var multiIteration = 0;
@@ -395,9 +395,12 @@ async function handle(state, action) {
     //   throw new ContractError("Player is already on team.");
     // }
     let lockLength = input.lockLength ? input.lockLength : 0;
+    console.log("====== VERIFY PLAYER");
     if (input.tokenId !== GAME_CURRENCY_CONTRACT_ID) {
       await verifyPlayer(state, input.tokenId);
     }
+
+    console.log("====== CAN CLAIM");
     const claimable = await canClaim(input.tokenId, input.qty, input.txID, state);
     if (claimable) {
       const transferResult = await SmartWeave.contracts.write(input.tokenId, {
@@ -914,7 +917,10 @@ function validateTeam(repo) {
   return "ok";
 }
 async function canClaim(claimTokenId, qty, txId, state) {
+  console.log("======= canClaim ======");
   const tokenState = await SmartWeave.contracts.readContractState(claimTokenId);
+  console.dir({ claimTokenId, qty, txId });
+  console.dir(tokenState.claimable, { depth: null });
   const claimable = tokenState.claimable.filter((c) => c.txID === txId && c.to === SmartWeave.contract.id && c.qty === qty);
   state.test = {
     txID: txId,

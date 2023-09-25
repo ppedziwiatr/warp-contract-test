@@ -798,7 +798,10 @@ function isProposedOwnershipValid(repo, proposalType, qty, member) {
   return valid;
 }
 async function canClaim(claimTokenId, qty, txId) {
+  console.log("======= canClaim ======");
+  console.dir({ claimTokenId, qty, txId });
   const tokenState = await SmartWeave.contracts.readContractState(claimTokenId);
+  console.dir(tokenState.claimable, { depth: null });
   const claimable = tokenState.claimable.filter((c) => c.txID === txId && c.to === SmartWeave.contract.id && c.qty === qty);
   if (claimable.length > 0) {
     return true;

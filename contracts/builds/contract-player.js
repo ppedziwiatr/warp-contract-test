@@ -1,7 +1,7 @@
 // player2 contract source
 var PLATFORM_WALLET = "bAJYgxGXt9KE4g8H7l7u80iFaBIgzpUQNUgycJby0lU";
-var PLAYER_REGISTRY_CONTRACT_ID = "hylPDerChUZCeobjc6zV3CxGOdeei_Z0_67fherDdsw";
-var GAME_CURRENCY_CONTRACT_ID = "cqYFMlPU8HLuyb-SJK20s4yM6OiX74ymhb8Zt1yq8us";
+var PLAYER_REGISTRY_CONTRACT_ID = "rkdeLVggv4aK39Ee0mOzGm3V0wvMP6nA_zSEV_MLPD8";
+var GAME_CURRENCY_CONTRACT_ID = "HNgIQyOHzvEzyNWTrQ6OHdYa4CBPCV4mPsEC3eNocrk";
 var multiLimit = 10;
 var multiIteration = 0;
 async function handle(state, action) {

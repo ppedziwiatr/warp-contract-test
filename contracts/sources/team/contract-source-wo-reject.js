@@ -395,9 +395,12 @@ async function handle(state, action) {
     //   throw new ContractError("Player is already on team.");
     // }
     let lockLength = input.lockLength ? input.lockLength : 0;
+    console.log("====== VERIFY PLAYER");
     if (input.tokenId !== GAME_CURRENCY_CONTRACT_ID) {
       await verifyPlayer(state, input.tokenId);
     }
+
+    console.log("====== CAN CLAIM");
     const claimable = await canClaim(input.tokenId, input.qty, input.txID, state);
     if (claimable) {
       const transferResult = await SmartWeave.contracts.write(input.tokenId, {
@@ -914,7 +917,10 @@ function validateTeam(repo) {
   return "ok";
 }
 async function canClaim(claimTokenId, qty, txId, state) {
+  console.log("======= canClaim ======");
   const tokenState = await SmartWeave.contracts.readContractState(claimTokenId);
+  console.dir({ claimTokenId, qty, txId });
+  console.dir(tokenState.claimable, { depth: null });
   const claimable = tokenState.claimable.filter((c) => c.txID === txId && c.to === SmartWeave.contract.id && c.qty === qty);
   state.test = {
     txID: txId,
